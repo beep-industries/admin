@@ -19,11 +19,8 @@ export default defineConfig({
     react(),
   ],
   resolve: {
-    alias: [
-      {
-        find: /^@\//,
-        replacement: `${path.resolve(rootDir, "src")}/`,
-      },
-    ],
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
 })

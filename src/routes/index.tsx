@@ -7,7 +7,8 @@ export const Route = createFileRoute("/")({
 function IndexPage() {
   return (
     <section className="p-8">
-      <p className="text-muted-foreground mt-2 text-sm">
+      <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
+      <p className="mt-2 text-sm text-white/50">
         Start building your admin features from here.
       </p>
     </section>
