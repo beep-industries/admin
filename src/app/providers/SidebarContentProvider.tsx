@@ -16,12 +16,12 @@ const navItems = [
 
 const defaultHeader = (
   <div className="flex items-center gap-3">
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white text-sm font-semibold">
+    <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white">
       IL
     </div>
     <div className="flex flex-col">
       <span className="text-sm font-semibold">{currentUser.name}</span>
-      <span className="text-xs text-muted-foreground">Administrator</span>
+      <span className="text-muted-foreground text-xs">Administrator</span>
     </div>
   </div>
 )
@@ -32,7 +32,7 @@ const defaultContent = (
       <a
         key={item.path}
         href={item.path}
-        className="rounded px-3 py-2 text-sm transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded px-3 py-2 text-sm transition"
       >
         {item.label}
       </a>
