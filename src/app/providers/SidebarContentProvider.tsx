@@ -1,4 +1,11 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
+import {
+  LayoutDashboard,
+  Users,
+  Server,
+  Shield,
+  Settings,
+} from "lucide-react"
 
 const currentUser = {
   name: "Isalyne LLINARES",
@@ -7,11 +14,11 @@ const currentUser = {
 }
 
 const navItems = [
-  { label: "Dashboard", path: "/" },
-  { label: "Users", path: "/users" },
-  { label: "Servers", path: "/servers" },
-  { label: "Moderation", path: "/moderation" },
-  { label: "Settings", path: "/settings" },
+  { label: "Dashboard", path: "/", icon: LayoutDashboard },
+  { label: "Users", path: "/users", icon: Users },
+  { label: "Servers", path: "/servers", icon: Server },
+  { label: "Moderation", path: "/moderation", icon: Shield },
+  { label: "Settings", path: "/settings", icon: Settings },
 ]
 
 const defaultHeader = (
@@ -19,7 +26,7 @@ const defaultHeader = (
     <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white">
       IL
     </div>
-    <div className="flex flex-col">
+    <div className="group-data-[collapsible=icon]:hidden flex flex-col">
       <span className="text-sm font-semibold">{currentUser.name}</span>
       <span className="text-muted-foreground text-xs">Administrator</span>
     </div>
@@ -28,15 +35,21 @@ const defaultHeader = (
 
 const defaultContent = (
   <nav className="flex flex-col gap-1 space-y-2">
-    {navItems.map((item) => (
-      <a
-        key={item.path}
-        href={item.path}
-        className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded px-3 py-2 text-sm transition"
-      >
-        {item.label}
-      </a>
-    ))}
+    {navItems.map((item) => {
+      const Icon = item.icon
+      return (
+        <a
+          key={item.path}
+          href={item.path}
+          className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group rounded px-3 py-2 text-sm transition flex items-center gap-3"
+        >
+          <Icon className="h-5 w-5 shrink-0" />
+          <span className="group-data-[collapsible=icon]:hidden">
+            {item.label}
+          </span>
+        </a>
+      )
+    })}
   </nav>
 )
 
