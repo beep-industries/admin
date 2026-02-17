@@ -9,7 +9,13 @@ export function TopBar() {
     if (segments.length === 0) return "Dashboard"
 
     const lastSegment = segments[segments.length - 1]
-    return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).toLowerCase()
+
+    const words = lastSegment
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ")
+
+    return words
   }
 
   const title = getTitleFromPath(location.pathname)
