@@ -58,7 +58,7 @@ pnpm preview
 
 ## Project Structure
 
-```
+```text
 src/
 ├── app/                          # Global app configuration
 │   ├── providers/                # React providers
