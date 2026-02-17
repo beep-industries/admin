@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react"
 import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
+import { Link } from "@tanstack/react-router"
 
 const currentUser = {
   name: "Isalyne LLINARES",
@@ -36,20 +37,20 @@ function DefaultContent() {
 
   return (
     <div className="flex h-full flex-col justify-between">
-      <nav className="flex flex-col gap-1 space-y-2">
+      <nav className="flex flex-col gap-1">
         {navItems.map((item) => {
           const Icon = item.icon
           return (
-            <a
+            <Link
               key={item.path}
-              href={item.path}
+              to={item.path}
               className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded px-3 py-2 text-sm transition"
             >
               <Icon className="h-5 w-5 shrink-0" />
               <span className="group-data-[collapsible=icon]:hidden">
                 {t(`sidebar.${item.label}`)}
               </span>
-            </a>
+            </Link>
           )
         })}
       </nav>
