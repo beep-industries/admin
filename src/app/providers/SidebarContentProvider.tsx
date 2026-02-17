@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { LayoutDashboard, Users, Server, Shield, Settings } from "lucide-react"
+import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
+import { useTranslation } from "react-i18next"
+import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 
 const currentUser = {
   name: "Isalyne LLINARES",
@@ -8,42 +10,55 @@ const currentUser = {
 }
 
 const navItems = [
-  { label: "Dashboard", path: "/", icon: LayoutDashboard },
-  { label: "Users", path: "/users", icon: Users },
-  { label: "Servers", path: "/servers", icon: Server },
-  { label: "Moderation", path: "/moderation", icon: Shield },
-  { label: "Settings", path: "/settings", icon: Settings },
+  { label: "dashboard", path: "/", icon: LayoutDashboard },
+  { label: "users", path: "/users", icon: Users },
+  { label: "servers", path: "/servers", icon: Server },
+  { label: "moderation", path: "/moderation", icon: Shield },
 ]
 
-const defaultHeader = (
-  <div className="flex items-center gap-3">
-    <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white">
-      IL
+function DefaultHeader() {
+  const { t } = useTranslation()
+  return (
+    <div className="flex items-center gap-3">
+      <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white">
+        IL
+      </div>
+      <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+        <span className="text-sm font-semibold">{currentUser.name}</span>
+        <span className="text-muted-foreground text-xs">{t("sidebar.adminRole")}</span>
+      </div>
     </div>
-    <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-      <span className="text-sm font-semibold">{currentUser.name}</span>
-      <span className="text-muted-foreground text-xs">Administrator</span>
-    </div>
-  </div>
-)
+  )
+}
 
-const defaultContent = (
-  <nav className="flex flex-col gap-1 space-y-2">
-    {navItems.map((item) => {
-      const Icon = item.icon
-      return (
-        <a
-          key={item.path}
-          href={item.path}
-          className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded px-3 py-2 text-sm transition"
-        >
-          <Icon className="h-5 w-5 shrink-0" />
-          <span className="group-data-[collapsible=icon]:hidden">{item.label}</span>
-        </a>
-      )
-    })}
-  </nav>
-)
+function DefaultContent() {
+  const { t } = useTranslation()
+
+  return (
+    <div className="flex h-full flex-col justify-between">
+      <nav className="flex flex-col gap-1 space-y-2">
+        {navItems.map((item) => {
+          const Icon = item.icon
+          return (
+            <a
+              key={item.path}
+              href={item.path}
+              className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded px-3 py-2 text-sm transition"
+            >
+              <Icon className="h-5 w-5 shrink-0" />
+              <span className="group-data-[collapsible=icon]:hidden">
+                {t(`sidebar.${item.label}`)}
+              </span>
+            </a>
+          )
+        })}
+      </nav>
+      <div className="mt-auto">
+        <SidebarSettingsMenu />
+      </div>
+    </div>
+  )
+}
 
 interface SidebarContentContextProps {
   header: ReactNode
@@ -55,8 +70,8 @@ interface SidebarContentContextProps {
 const SidebarContentContext = createContext<SidebarContentContextProps | null>(null)
 
 export function SidebarContentProvider({ children }: { children: ReactNode }) {
-  const [header, setHeader] = useState<ReactNode>(defaultHeader)
-  const [content, setContent] = useState<ReactNode>(defaultContent)
+  const [header, setHeader] = useState<ReactNode>(<DefaultHeader />)
+  const [content, setContent] = useState<ReactNode>(<DefaultContent />)
 
   return (
     <SidebarContentContext.Provider value={{ header, setHeader, content, setContent }}>
