@@ -1,21 +1,19 @@
 import { useLocation } from "@tanstack/react-router"
+import { useTranslation } from "react-i18next"
 import { SidebarTrigger } from "./ui/Sidebar"
 
 export function TopBar() {
   const location = useLocation()
+  const { t } = useTranslation()
 
   const getTitleFromPath = (pathname: string) => {
     const segments = pathname.split("/").filter(Boolean)
-    if (segments.length === 0) return "Dashboard"
+    if (segments.length === 0) return t("sidebar.dashboard")
 
     const lastSegment = segments[segments.length - 1]
+    const translationKey = `sidebar.${lastSegment}`
 
-    const words = lastSegment
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ")
-
-    return words
+    return t(translationKey, lastSegment)
   }
 
   const title = getTitleFromPath(location.pathname)
