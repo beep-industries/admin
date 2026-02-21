@@ -4,6 +4,7 @@ import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
 import { useAuth } from "@/app/providers/KeycloakAuthProvider"
 import { getUserInitials } from "@/shared/lib/user"
+import { Button } from "@/shared/components/ui/Button"
 
 const navItems = [
   { label: "dashboard", path: "/", icon: LayoutDashboard },
@@ -39,6 +40,7 @@ function DefaultHeader() {
 
 function DefaultContent() {
   const { t } = useTranslation()
+  const { logout } = useAuth()
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -62,8 +64,18 @@ function DefaultContent() {
           )
         })}
       </nav>
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <SidebarSettingsMenu />
+        <div className="p-2">
+          <Button
+            onClick={() => logout()}
+            variant="outline"
+            className="text-destructive hover:bg-destructive/10 hover:text-destructive w-full justify-start gap-2"
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="group-data-[collapsible=icon]:hidden">{t("topBar.logout")}</span>
+          </Button>
+        </div>
       </div>
     </div>
   )
