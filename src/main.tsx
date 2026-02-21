@@ -4,10 +4,41 @@ import ReactDOM from "react-dom/client"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "@/routeTree.gen"
 import { ThemeProvider } from "@/app/providers/ThemeProvider"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { AuthProvider, useAuth as useOidcAuth } from "react-oidc-context"
+import { WebStorageStateStore, type User as OidcClientUser } from "oidc-client-ts"
+import { type AuthState, mapOidcUserToUser } from "@/app/providers/KeycloakAuthProvider"
+import { useCallback } from "react"
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+    },
+  },
+})
+
+const oidcConfig = {
+  authority: import.meta.env.VITE_KEYCLOAK_AUTHORITY,
+  client_id: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+  redirect_uri: window.location.origin,
+  post_logout_redirect_uri: window.location.origin,
+  scope: "openid profile email",
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
+  automaticSilentRenew: true,
+  onSigninCallback: () => {
+    window.history.replaceState({}, document.title, window.location.pathname)
+  },
+}
 
 // Set up a Router instance
 const router = createRouter({
   routeTree,
+  defaultPreload: "intent",
+  defaultStaleTime: 5000,
+  scrollRestoration: true,
+  context: { auth: undefined! },
 })
 
 // Register things for typesafety
@@ -19,11 +50,70 @@ declare module "@tanstack/react-router" {
 
 const rootElement = document.getElementById("root")!
 
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
+function AuthenticatedRouter() {
+  const oidcAuth = useOidcAuth()
+
+  const subscribeToTokenRefresh = useCallback(
+    (callback: (token: string) => void) => {
+      const handler = (user: OidcClientUser | null) => {
+        if (user?.access_token) {
+          callback(user.access_token)
+        }
+      }
+      oidcAuth.events.addUserLoaded(handler)
+      return () => oidcAuth.events.removeUserLoaded(handler)
+    },
+    [oidcAuth.events]
+  )
+
+  const hasRole = useCallback(
+    (role: string): boolean => {
+      const user = mapOidcUserToUser(oidcAuth.user)
+      return user?.roles?.includes(role) ?? false
+    },
+    [oidcAuth.user]
+  )
+
+  const auth: AuthState = {
+    isAuthenticated: oidcAuth.isAuthenticated,
+    isLoading: oidcAuth.isLoading,
+    user: mapOidcUserToUser(oidcAuth.user),
+    accessToken: oidcAuth.user?.access_token ?? null,
+    login: () => oidcAuth.signinRedirect(),
+    logout: () => oidcAuth.signoutRedirect(),
+    signinSilent: async () => {
+      const user = await oidcAuth.signinSilent()
+      return user?.access_token ?? null
+    },
+    subscribeToTokenRefresh,
+    error: oidcAuth.error ?? null,
+    activeNavigator: oidcAuth.activeNavigator,
+    hasRole,
+    isAdmin: hasRole("admin"),
+  }
+
+  return (
+    <RouterProvider
+      router={router}
+      context={{ auth }}
+      key={`${oidcAuth.isLoading}-${oidcAuth.isAuthenticated}`}
+    />
+  )
+}
+
+function BaseProvider() {
+  return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider {...oidcConfig}>
+            <AuthenticatedRouter />
+        </AuthProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   )
+}
+
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(<BaseProvider />)
 }

@@ -15,5 +15,16 @@
     "servers": "Serveurs",
     "moderation": "Modération",
     "adminRole": "Administrateur"
+  },
+  "topBar": {
+    "profile": "Profil",
+    "administrator": "Administrateur",
+    "logout": "Se déconnecter"
+  },
+  "auth": {
+    "accessDenied": "Accès refusé",
+    "noPermission": "Vous n'avez pas les permissions nécessaires pour accéder à l'interface d'administration.",
+    "contactAdmin": "Contactez un administrateur pour obtenir l'accès.",
+    "logoutButton": "Se déconnecter"
   }
 }

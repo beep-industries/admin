@@ -2,12 +2,9 @@ import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
+import { useAuth } from "@/app/providers/KeycloakAuthProvider"
 import { getUserInitials } from "@/shared/lib/user"
-const currentUser = {
-  name: "Admin User",
-  email: "admin@beep.app",
-  avatar: "",
-}
+
 const navItems = [
   { label: "dashboard", path: "/", icon: LayoutDashboard },
   { label: "users", path: "/users", icon: Users },
@@ -17,10 +14,11 @@ const navItems = [
 
 function DefaultHeader() {
   const { t } = useTranslation()
+  const { user } = useAuth()
 
   const initials = getUserInitials({
-    username: currentUser?.name,
-    email: currentUser?.email,
+    username: user?.username,
+    email: user?.email,
     fallback: t("sidebar.adminRole"),
   })
 
@@ -30,7 +28,9 @@ function DefaultHeader() {
         {initials}
       </div>
       <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-        <span className="text-sm font-semibold">{currentUser.name}</span>
+        <span className="text-sm font-semibold">
+          {user?.username || user?.email || t("sidebar.adminRole")}
+        </span>
         <span className="text-muted-foreground text-xs">{t("sidebar.adminRole")}</span>
       </div>
     </div>

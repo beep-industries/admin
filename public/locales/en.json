@@ -15,5 +15,16 @@
     "servers": "Servers",
     "moderation": "Moderation",
     "adminRole": "Administrator"
+  },
+  "topBar": {
+    "profile": "Profile",
+    "administrator": "Administrator",
+    "logout": "Log out"
+  },
+  "auth": {
+    "accessDenied": "Access denied",
+    "noPermission": "You don't have the necessary permissions to access the administration interface.",
+    "contactAdmin": "Contact an administrator to get access.",
+    "logoutButton": "Log out"
   }
 }
