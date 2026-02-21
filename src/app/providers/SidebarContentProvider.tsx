@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
 import { getUserInitials } from "@/shared/lib/user"
-
 const currentUser = {
   name: "Admin User",
   email: "admin@beep.app",
