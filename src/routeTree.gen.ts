@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/__root"
+import { Route as UsersRouteImport } from "./routes/users"
+import { Route as ServersRouteImport } from "./routes/servers"
+import { Route as ModerationRouteImport } from "./routes/moderation"
 import { Route as IndexRouteImport } from "./routes/index"
 
+const UsersRoute = UsersRouteImport.update({
+  id: "/users",
+  path: "/users",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServersRoute = ServersRouteImport.update({
+  id: "/servers",
+  path: "/servers",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModerationRoute = ModerationRouteImport.update({
+  id: "/moderation",
+  path: "/moderation",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
+  "/moderation": typeof ModerationRoute
+  "/servers": typeof ServersRoute
+  "/users": typeof UsersRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/moderation": typeof ModerationRoute
+  "/servers": typeof ServersRoute
+  "/users": typeof UsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
+  "/moderation": typeof ModerationRoute
+  "/servers": typeof ServersRoute
+  "/users": typeof UsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/"
+  fullPaths: "/" | "/moderation" | "/servers" | "/users"
   fileRoutesByTo: FileRoutesByTo
-  to: "/"
-  id: "__root__" | "/"
+  to: "/" | "/moderation" | "/servers" | "/users"
+  id: "__root__" | "/" | "/moderation" | "/servers" | "/users"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ModerationRoute: typeof ModerationRoute
+  ServersRoute: typeof ServersRoute
+  UsersRoute: typeof UsersRoute
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/users": {
+      id: "/users"
+      path: "/users"
+      fullPath: "/users"
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/servers": {
+      id: "/servers"
+      path: "/servers"
+      fullPath: "/servers"
+      preLoaderRoute: typeof ServersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/moderation": {
+      id: "/moderation"
+      path: "/moderation"
+      fullPath: "/moderation"
+      preLoaderRoute: typeof ModerationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/": {
       id: "/"
       path: "/"
@@ -53,6 +104,9 @@ declare module "@tanstack/react-router" {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ModerationRoute: ModerationRoute,
+  ServersRoute: ServersRoute,
+  UsersRoute: UsersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
