@@ -19,9 +19,19 @@ const queryClient = new QueryClient({
   },
 })
 
+const keycloakAuthority = import.meta.env.VITE_KEYCLOAK_AUTHORITY
+const keycloakClientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID
+
+if (!keycloakAuthority || !keycloakClientId) {
+  throw new Error(
+    "Missing required Keycloak env vars: VITE_KEYCLOAK_AUTHORITY, VITE_KEYCLOAK_CLIENT_ID"
+  )
+}
+
 const oidcConfig = {
-  authority: import.meta.env.VITE_KEYCLOAK_AUTHORITY,
-  client_id: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+  authority: keycloakAuthority,
+  client_id: keycloakClientId,
+  response_type: "code",
   redirect_uri: window.location.origin,
   post_logout_redirect_uri: window.location.origin,
   scope: "openid profile email",
