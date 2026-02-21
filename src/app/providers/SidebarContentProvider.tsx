@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
+import { LayoutDashboard, Users, Server, Shield, LogOut } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
