@@ -5,7 +5,7 @@ import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
 
 const currentUser = {
-  name: "Isalyne LLINARES",
+  name: "Admin User",
   email: "admin@beep.app",
   avatar: "",
 }
@@ -19,10 +19,18 @@ const navItems = [
 
 function DefaultHeader() {
   const { t } = useTranslation()
+
+  const initials = currentUser.name
+    .split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
+
   return (
-    <div className="flex items-center gap-3">
-      <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white">
-        IL
+    <div className="flex items-center gap-3 px-2 py-2 text-sm transition">
+      <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white">
+        {initials}
       </div>
       <div className="flex flex-col group-data-[collapsible=icon]:hidden">
         <span className="text-sm font-semibold">{currentUser.name}</span>
@@ -88,5 +96,3 @@ export function useSidebarContent() {
   }
   return context
 }
-
-export const defaultCurrentUser = currentUser

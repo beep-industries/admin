@@ -27,7 +27,7 @@ export function SidebarSettingsMenu() {
               tooltip={t("userNav.settings")}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Settings className="size-4" />
+              <Settings className="h-8 w-8" />
               <span className="group-data-[collapsible=icon]:hidden">{t("userNav.settings")}</span>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -39,7 +39,7 @@ export function SidebarSettingsMenu() {
           >
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="text-responsive-base!">
-                {theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+                {theme === "dark" ? <Moon className="h-8 w-8" /> : <Sun className="h-5 w-5" />}
                 {t("userNav.theme")}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
@@ -58,12 +58,19 @@ export function SidebarSettingsMenu() {
                     {t("userNav.dark")}
                     {theme === "dark" && <Check className="ml-auto size-4" />}
                   </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setTheme("system")}
+                    className="text-responsive-base!"
+                  >
+                    {t("userNav.system")}
+                    {theme === "system" && <Check className="ml-auto size-4" />}
+                  </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="text-responsive-base!">
-                <Globe className="size-4" />
+                <Globe className="h-8 w-8" />
                 {t("userNav.language")}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>

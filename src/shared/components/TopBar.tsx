@@ -23,7 +23,7 @@ export function TopBar() {
   return (
     <div className="border-border bg-background flex items-center gap-4 border-b px-4 py-3">
       <SidebarTrigger />
-      <h1 className="text-2xl font-semibold">{title}</h1>
+      <h1 className="text-xl font-semibold">{title}</h1>
     </div>
   )
 }
