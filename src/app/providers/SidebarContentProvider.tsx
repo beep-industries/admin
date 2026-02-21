@@ -3,13 +3,12 @@ import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
-
+import { getUserInitials } from "@/shared/lib/user"
 const currentUser = {
   name: "Admin User",
   email: "admin@beep.app",
   avatar: "",
 }
-
 const navItems = [
   { label: "dashboard", path: "/", icon: LayoutDashboard },
   { label: "users", path: "/users", icon: Users },
@@ -20,12 +19,11 @@ const navItems = [
 function DefaultHeader() {
   const { t } = useTranslation()
 
-  const initials = currentUser.name
-    .split(" ")
-    .map((n: string) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2)
+  const initials = getUserInitials({
+    username: currentUser?.name,
+    email: currentUser?.email,
+    fallback: t("sidebar.adminRole"),
+  })
 
   return (
     <div className="flex items-center gap-3 px-2 py-2 text-sm transition">
@@ -53,6 +51,9 @@ function DefaultContent() {
               key={item.path}
               to={item.path}
               className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded px-3 py-2 text-sm transition"
+              activeProps={{
+                className: "bg-sidebar-accent text-sidebar-accent-foreground",
+              }}
             >
               <Icon className="h-5 w-5 shrink-0" />
               <span className="group-data-[collapsible=icon]:hidden">
