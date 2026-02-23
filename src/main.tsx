@@ -51,13 +51,6 @@ const router = createRouter({
   context: { auth: undefined! },
 })
 
-// Register things for typesafety
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router
-  }
-}
-
 const rootElement = document.getElementById("root")!
 
 function AuthenticatedRouter() {
@@ -116,7 +109,7 @@ function BaseProvider() {
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>
         <AuthProvider {...oidcConfig}>
-            <AuthenticatedRouter />
+          <AuthenticatedRouter />
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>

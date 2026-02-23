@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/DropdownMenu"
 import { LogOut, Shield, User } from "lucide-react"
+import { getUserInitials } from "../lib/user"
 
 export function TopBar() {
   const location = useLocation()
@@ -29,14 +30,11 @@ export function TopBar() {
   }
 
   const title = getTitleFromPath(location.pathname)
-  const initials = user?.username
-    ? user.username
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
-    : "AD"
+  const initials = getUserInitials({
+    username: user?.username,
+    email: user?.email,
+    fallback: t("sidebar.adminRole"),
+  })
 
   return (
     <div className="border-border bg-background flex items-center gap-4 border-b px-4 py-3">
