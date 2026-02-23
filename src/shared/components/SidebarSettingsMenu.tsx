@@ -1,4 +1,4 @@
-import { Check, Globe, Moon, Settings, Sun } from "lucide-react"
+import { Check, Globe, Monitor, Moon, Settings, Sun } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 import { useTheme } from "@/app/providers/ThemeProvider"
@@ -27,7 +27,7 @@ export function SidebarSettingsMenu() {
               tooltip={t("userNav.settings")}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Settings className="h-8 w-8" />
+              <Settings className="h-5 w-5" />
               <span className="group-data-[collapsible=icon]:hidden">{t("userNav.settings")}</span>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -39,7 +39,13 @@ export function SidebarSettingsMenu() {
           >
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="text-responsive-base!">
-                {theme === "dark" ? <Moon className="h-8 w-8" /> : <Sun className="h-5 w-5" />}
+                {theme === "dark" ? (
+                  <Moon className="h-5 w-5" />
+                ) : theme === "light" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Monitor className="h-5 w-5" />
+                )}
                 {t("userNav.theme")}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
@@ -70,7 +76,7 @@ export function SidebarSettingsMenu() {
             </DropdownMenuSub>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="text-responsive-base!">
-                <Globe className="h-8 w-8" />
+                <Globe className="h-5 w-5" />
                 {t("userNav.language")}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
