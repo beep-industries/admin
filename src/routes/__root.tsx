@@ -5,6 +5,7 @@ import { Loader2, ShieldAlert } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { hasAuthParams } from "react-oidc-context"
 import { useTranslation } from "react-i18next"
+import { Button } from "@/shared/components/ui/Button"
 
 interface AppContext {
   auth: AuthState
@@ -49,7 +50,7 @@ function RootComponent() {
         <p className="text-muted-foreground max-w-md text-center">
           {t("auth.loginErrorDescription")}
         </p>
-        <button
+        <Button
           onClick={() => {
             hasTriedSignin.current = false
             loginAttempts.current = 0
@@ -58,7 +59,7 @@ function RootComponent() {
           className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 rounded-md px-4 py-2"
         >
           {t("auth.retryLogin")}
-        </button>
+        </Button>
       </div>
     )
   }
@@ -66,7 +67,7 @@ function RootComponent() {
   if (auth.isLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+        {auth.isSigningIn && <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />}
       </div>
     )
   }
@@ -84,12 +85,12 @@ function RootComponent() {
           {isSigningIn ? t("auth.signingInDescription") : t("auth.signInDescription")}
         </p>
         {!isSigningIn && (
-          <button
+          <Button
             onClick={() => auth.login()}
             className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 rounded-md px-4 py-2"
           >
             {t("auth.signInButton")}
-          </button>
+          </Button>
         )}
       </div>
     )
@@ -106,12 +107,12 @@ function RootComponent() {
           <br />
           {t("auth.contactAdmin")}
         </p>
-        <button
+        <Button
           onClick={() => auth.logout()}
           className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 rounded-md px-4 py-2"
         >
           {t("auth.logoutButton")}
-        </button>
+        </Button>
       </div>
     )
   }

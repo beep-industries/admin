@@ -45,7 +45,7 @@ function extractRoles(oidcUser: OidcUser | null | undefined): string[] {
 
   // Check resource_access roles for specific client
   const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID
-  const clientRoles = profile.resource_access?.[clientId]?.roles || []
+  const clientRoles = clientId ? (profile.resource_access?.[clientId]?.roles ?? []) : []
 
   // Check for roles in the profile itself
   const profileRoles = profile.roles || []
@@ -60,7 +60,8 @@ export function mapOidcUserToUser(oidcUser: OidcUser | null | undefined): User |
   const profile = oidcUser.profile as KeycloakProfile
   const roles = extractRoles(oidcUser)
 
-  if (!profile.sub) return null // sub (user ID) is required
+  if (!profile.sub) return null
+  if (!profile.email && !profile.preferred_username) return null
 
   return {
     id: profile.sub,
