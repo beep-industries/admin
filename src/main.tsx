@@ -4,7 +4,6 @@ import ReactDOM from "react-dom/client"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "@/routeTree.gen"
 import { ThemeProvider } from "@/app/providers/ThemeProvider"
-import { SidebarContentProvider } from "@/app/providers/SidebarContentProvider"
 
 // Set up a Router instance
 const router = createRouter({
@@ -24,9 +23,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <SidebarContentProvider>
-        <RouterProvider router={router} />
-      </SidebarContentProvider>
+      <RouterProvider router={router} />
     </ThemeProvider>
   )
 }

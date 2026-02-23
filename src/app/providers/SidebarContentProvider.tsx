@@ -1,9 +1,9 @@
-import { type ReactNode } from "react"
 import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
 import { getUserInitials } from "@/shared/lib/user"
+
 const currentUser = {
   name: "Admin User",
   email: "admin@beep.app",
@@ -26,8 +26,8 @@ function DefaultHeader() {
   })
 
   return (
-    <div className="flex items-center gap-3 px-2 py-2 text-sm transition">
-      <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white">
+    <div className="flex items-center gap-3 text-sm transition">
+      <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white">
         {initials}
       </div>
       <div className="flex flex-col group-data-[collapsible=icon]:hidden">
@@ -50,12 +50,12 @@ function DefaultContent() {
             <Link
               key={item.path}
               to={item.path}
-              className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded px-3 py-2 text-sm transition"
+              className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group flex items-center gap-3 rounded p-2 text-sm transition"
               activeProps={{
                 className: "bg-sidebar-accent text-sidebar-accent-foreground",
               }}
             >
-              <Icon className="h-5 w-5 shrink-0" />
+              <Icon className="shrink-0" size={16} />
               <span className="group-data-[collapsible=icon]:hidden">
                 {t(`sidebar.${item.label}`)}
               </span>
@@ -68,10 +68,6 @@ function DefaultContent() {
       </div>
     </div>
   )
-}
-
-export function SidebarContentProvider({ children }: { children: ReactNode }) {
-  return children
 }
 
 export { DefaultHeader, DefaultContent }
