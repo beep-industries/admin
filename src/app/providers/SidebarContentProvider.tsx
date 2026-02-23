@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
@@ -70,30 +70,8 @@ function DefaultContent() {
   )
 }
 
-interface SidebarContentContextProps {
-  header: ReactNode
-  setHeader: (header: ReactNode) => void
-  content: ReactNode
-  setContent: (content: ReactNode) => void
-}
-
-const SidebarContentContext = createContext<SidebarContentContextProps | null>(null)
-
 export function SidebarContentProvider({ children }: { children: ReactNode }) {
-  const [header, setHeader] = useState<ReactNode>(<DefaultHeader />)
-  const [content, setContent] = useState<ReactNode>(<DefaultContent />)
-
-  return (
-    <SidebarContentContext.Provider value={{ header, setHeader, content, setContent }}>
-      {children}
-    </SidebarContentContext.Provider>
-  )
+  return children
 }
 
-export function useSidebarContent() {
-  const context = useContext(SidebarContentContext)
-  if (!context) {
-    throw new Error("useSidebarContent must be used within a SidebarContentProvider")
-  }
-  return context
-}
+export { DefaultHeader, DefaultContent }
