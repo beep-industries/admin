@@ -1,0 +1,19 @@
+{
+  "userNav": {
+    "theme": "Thème",
+    "light": "Clair",
+    "dark": "Foncé",
+    "system": "Système",
+    "language": "Langue",
+    "french": "Français",
+    "english": "Anglais",
+    "settings": "Paramètres"
+  },
+  "sidebar": {
+    "dashboard": "Tableau de bord",
+    "users": "Utilisateurs",
+    "servers": "Serveurs",
+    "moderation": "Modération",
+    "adminRole": "Administrateur"
+  }
+}
