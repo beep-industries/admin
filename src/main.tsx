@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider, useAuth as useOidcAuth } from "react-oidc-context"
 import { WebStorageStateStore, type User as OidcClientUser } from "oidc-client-ts"
 import { type AuthState, mapOidcUserToUser } from "@/app/providers/KeycloakAuthProvider"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,24 +76,28 @@ function AuthenticatedRouter() {
     },
     [oidcAuth.user]
   )
+  const user = useMemo(() => mapOidcUserToUser(oidcAuth.user), [oidcAuth.user])
 
-  const auth: AuthState = {
-    isAuthenticated: oidcAuth.isAuthenticated,
-    isLoading: oidcAuth.isLoading,
-    user: mapOidcUserToUser(oidcAuth.user),
-    accessToken: oidcAuth.user?.access_token ?? null,
-    login: () => oidcAuth.signinRedirect(),
-    logout: () => oidcAuth.signoutRedirect(),
-    signinSilent: async () => {
-      const user = await oidcAuth.signinSilent()
-      return user?.access_token ?? null
-    },
-    subscribeToTokenRefresh,
-    error: oidcAuth.error ?? null,
-    activeNavigator: oidcAuth.activeNavigator,
-    hasRole,
-    isAdmin: hasRole("admin"),
-  }
+  const auth: AuthState = useMemo(
+    () => ({
+      isAuthenticated: oidcAuth.isAuthenticated,
+      isLoading: oidcAuth.isLoading,
+      user,
+      accessToken: oidcAuth.user?.access_token ?? null,
+      login: () => oidcAuth.signinRedirect(),
+      logout: () => oidcAuth.signoutRedirect(),
+      signinSilent: async () => {
+        const u = await oidcAuth.signinSilent()
+        return u?.access_token ?? null
+      },
+      subscribeToTokenRefresh,
+      error: oidcAuth.error ?? null,
+      activeNavigator: oidcAuth.activeNavigator,
+      hasRole,
+      isAdmin: hasRole("admin"),
+    }),
+    [oidcAuth, user, subscribeToTokenRefresh, hasRole]
+  )
 
   return (
     <RouterProvider
