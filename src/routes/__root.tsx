@@ -65,9 +65,10 @@ function RootComponent() {
   }
 
   if (auth.isLoading) {
+    const isSigningIn = hasAuthParams() || Boolean(auth.activeNavigator)
     return (
       <div className="flex h-screen w-screen items-center justify-center">
-        {auth.isSigningIn && <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />}
+        {isSigningIn && <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />}
       </div>
     )
   }
