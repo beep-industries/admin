@@ -1,14 +1,11 @@
-import { LayoutDashboard, Users, Server, Shield } from "lucide-react"
+import { LayoutDashboard, Users, Server, Shield, LogOut } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { SidebarSettingsMenu } from "@/shared/components/SidebarSettingsMenu"
 import { Link } from "@tanstack/react-router"
+import { useAuth } from "@/app/providers/KeycloakAuthProvider"
 import { getUserInitials } from "@/shared/lib/user"
+import { Button } from "@/shared/components/ui/Button"
 
-const currentUser = {
-  name: "Admin User",
-  email: "admin@beep.app",
-  avatar: "",
-}
 const navItems = [
   { label: "dashboard", path: "/", icon: LayoutDashboard },
   { label: "users", path: "/users", icon: Users },
@@ -18,10 +15,11 @@ const navItems = [
 
 function DefaultHeader() {
   const { t } = useTranslation()
+  const { user } = useAuth()
 
   const initials = getUserInitials({
-    username: currentUser?.name,
-    email: currentUser?.email,
+    username: user?.username,
+    email: user?.email,
     fallback: t("sidebar.adminRole"),
   })
 
@@ -31,7 +29,9 @@ function DefaultHeader() {
         {initials}
       </div>
       <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-        <span className="text-sm font-semibold">{currentUser.name}</span>
+        <span className="text-sm font-semibold">
+          {user?.username || user?.email || t("sidebar.adminRole")}
+        </span>
         <span className="text-muted-foreground text-xs">{t("sidebar.adminRole")}</span>
       </div>
     </div>
@@ -40,6 +40,7 @@ function DefaultHeader() {
 
 function DefaultContent() {
   const { t } = useTranslation()
+  const { logout } = useAuth()
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -63,8 +64,18 @@ function DefaultContent() {
           )
         })}
       </nav>
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <SidebarSettingsMenu />
+        <div className="p-2">
+          <Button
+            onClick={() => logout()}
+            variant="outline"
+            className="text-destructive hover:bg-destructive/10 hover:text-destructive w-full justify-start gap-2"
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="group-data-[collapsible=icon]:hidden">{t("topBar.logout")}</span>
+          </Button>
+        </div>
       </div>
     </div>
   )

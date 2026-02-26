@@ -15,5 +15,25 @@
     "servers": "Serveurs",
     "moderation": "Modération",
     "adminRole": "Administrateur"
+  },
+  "topBar": {
+    "profile": "Profil",
+    "administrator": "Administrateur",
+    "logout": "Se déconnecter",
+    "userMenu": "Menu utilisateur"
+  },
+  "auth": {
+    "accessDenied": "Accès refusé",
+    "noPermission": "Vous n'avez pas les permissions nécessaires pour accéder à l'interface d'administration.",
+    "contactAdmin": "Contactez un administrateur pour obtenir l'accès.",
+    "logoutButton": "Se déconnecter",
+    "loginErrorTitle": "Connexion impossible",
+    "loginErrorDescription": "Une erreur est survenue pendant l'authentification. Veuillez réessayer.",
+    "retryLogin": "Réessayer",
+    "signInTitle": "Connexion requise",
+    "signInDescription": "Veuillez vous authentifier pour accéder à l'interface d'administration.",
+    "signInButton": "Se connecter",
+    "signingInTitle": "Connexion en cours",
+    "signingInDescription": "Redirection vers Keycloak..."
   }
 }

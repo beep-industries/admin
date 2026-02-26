@@ -15,5 +15,25 @@
     "servers": "Servers",
     "moderation": "Moderation",
     "adminRole": "Administrator"
+  },
+  "topBar": {
+    "profile": "Profile",
+    "administrator": "Administrator",
+    "logout": "Log out",
+    "userMenu": "User menu"
+  },
+  "auth": {
+    "accessDenied": "Access denied",
+    "noPermission": "You don't have the necessary permissions to access the administration interface.",
+    "contactAdmin": "Contact an administrator to get access.",
+    "logoutButton": "Log out",
+    "loginErrorTitle": "Unable to sign in",
+    "loginErrorDescription": "An error occurred during authentication. Please try again.",
+    "retryLogin": "Try again",
+    "signInTitle": "Sign in required",
+    "signInDescription": "Please sign in to access the administration interface.",
+    "signInButton": "Sign in",
+    "signingInTitle": "Signing in",
+    "signingInDescription": "Redirecting to Keycloak..."
   }
 }
